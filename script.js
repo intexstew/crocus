@@ -4,12 +4,10 @@ const GALLERY_PHOTOS = [
   'img/cases/dhln50pL6c4.jpg',
   'img/cases/En6LohJz1SI.jpg',
   'img/cases/G1I1bAF86jY.jpg',
-  'img/cases/hveDSDmyvYE.jpg',
   'img/cases/I4iYZAW55TI.jpg',
   'img/cases/lg9Oj7VjS5k.jpg',
   'img/cases/SJyrzNZaWxg.jpg',
-  'img/cases/XeQocrKFR-k.jpg',
-  'img/cases/_CsmX0GLVpg.jpg'
+  'img/cases/XeQocrKFR-k.jpg'
 ];
 
 // 12 separate furniture & service cells (4x3 balanced grid) with prices, specs & booking
@@ -95,7 +93,7 @@ const CATALOG_ITEMS = [
     title: 'Кухня «Нео-Классика» с образца',
     price: '161 000 ₽',
     oldPrice: '378 000 ₽',
-    photo: GALLERY_PHOTOS[8],
+    photo: GALLERY_PHOTOS[5],
     calcType: 'kitchen-classic',
     desc: 'Выставочный образец МДФ «Нео-Классика» Premium со влагостойкой столешницей 38 мм.',
     specs: [
@@ -140,7 +138,7 @@ const CATALOG_ITEMS = [
     title: 'Гардеробные и спальни',
     price: 'от 45 000 ₽',
     oldPrice: '64 300 ₽',
-    photo: GALLERY_PHOTOS[8],
+    photo: GALLERY_PHOTOS[1],
     calcType: 'wardrobe',
     desc: 'Эргономичные гардеробные комнаты и спальные гарнитуры по вашим размерам.',
     specs: [

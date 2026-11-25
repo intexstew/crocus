@@ -241,8 +241,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileNav.classList.toggle('flex', !isHidden);
     burgerBtn.setAttribute('aria-expanded', String(!isHidden));
   });
-  mobileNav?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
+  mobileNav?.querySelectorAll('a, button').forEach((item) => {
+    item.addEventListener('click', () => {
       mobileNav.classList.add('hidden');
       mobileNav.classList.remove('flex');
       burgerBtn?.setAttribute('aria-expanded', 'false');
@@ -800,15 +800,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     selectedRating = 5;
     reviewFeedback.textContent = 'Спасибо, ваш отзыв добавлен.';
-  });
-
-  // Cookie Banner
-  const cookieBanner = document.getElementById('cookieBanner');
-  if (localStorage.getItem('crocus_cookies_accepted') === '1') {
-    cookieBanner.classList.add('hidden');
-  }
-  document.getElementById('acceptCookies').addEventListener('click', () => {
-    localStorage.setItem('crocus_cookies_accepted', '1');
-    cookieBanner.classList.add('hidden');
   });
 });

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth bg-white text-[#1c1613]">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CROCUS — Мебель и кухни на заказ в Самаре</title>
+  <meta name="description" content="Мебельная компания CROCUS (ООО Мебельная Страна) изготавливает корпусную и встроенную мебель на заказ в Самаре с 2005 года: кухни, шкафы-купе, детские, гардеробные, прихожие." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Onest', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            display: ['Unbounded', 'Onest', 'sans-serif'],
+          },
+          colors: {
+            cream: '#ffffff',
+            sand: '#f7f7f7',
+            espresso: '#1c1613',
+            espressoSoft: '#312722',
+            terracotta: '#e84e1b',
+            terracottaDark: '#c83e10',
+            terracottaBright: '#ff6b35',
+            sage: '#228b4e',
+            ink: '#1c1613',
+            inkSoft: '#574d46',
+            inkMuted: '#84786f',
+            line: 'rgba(28, 22, 19, 0.1)',
+          },
+          boxShadow: {
+            card: '0 1px 2px rgba(28, 22, 19, 0.04), 0 8px 24px rgba(28, 22, 19, 0.05)',
+            cardHover: '0 14px 36px rgba(28, 22, 19, 0.09)',
+          },
+          transitionTimingFunction: {
+            brand: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Native modal scroll containment & backdrop */
+    dialog:modal {
+      overscroll-behavior: contain;
+    }
+    dialog::backdrop {
+      overflow: hidden;
+      overscroll-behavior: contain;
+      background-color: rgba(28, 22, 19, 0.56);
+      backdrop-filter: blur(4px);
+    }
+    dialog[open] {
+      display: flex;
+    }
+
+    /* Native FAQ accordion marker & smooth height */
+    .faq-details summary {
+      list-style: none;
+    }
+    .faq-details summary::-webkit-details-marker {
+      display: none;
+    }
+    .faq-details summary::before {
+      content: "";
+      inline-size: 18px;
+      block-size: 18px;
+      flex-shrink: 0;
+      background-color: #e84e1b;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat center / contain;
+      rotate: -90deg;
+    }
+    .faq-details[open] > summary::before {
+      rotate: 0deg;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .faq-details summary::before {
+        transition: rotate 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .faq-details::details-content {
+        transition: block-size 0.3s cubic-bezier(0.22, 1, 0.36, 1), content-visibility 0.3s allow-discrete, display 0.3s allow-discrete;
+      }
+    }
+    .faq-details::details-content {
+      interpolate-size: allow-keywords;
+      overflow: clip;
+      contain: layout;
+    }
+    .faq-details:not([open])::details-content {
+      block-size: 0;
+    }
+
+    /* Post-interaction form validation */
+    .field-error {
+      display: none;
+    }
+    :is(input, textarea):is(:user-invalid, .user-invalid-fallback) {
+      border-color: #c24e22;
+      background-color: #fff5f2;
+    }
+    :is(input, textarea):is(:user-invalid, .user-invalid-fallback) + .field-error {
+      display: block;
+    }
+    :is(input, textarea):is(:user-valid, .user-valid-fallback) {
+      border-color: #2d6a4f;
+    }
+
+    /* Screen-reader live region */
+    .visually-hidden:where(:not(:focus-within, :active)) {
+      position: absolute !important;
+      clip-path: inset(50%) !important;
+      overflow: hidden !important;
+      width: 1px !important;
+      height: 1px !important;
+      margin: -1px !important;
+      padding: 0 !important;
+      border: 0 !important;
+      white-space: nowrap !important;
+    }
+  </style>
+</head>
+<body class="font-sans text-[15px] leading-relaxed bg-cream text-ink antialiased overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white border-b border-line" id="top">
+    <div class="w-[min(1280px,92vw)] mx-auto flex items-center justify-between h-16 gap-6">
+      <a href="#home" class="flex items-center gap-2.5 text-[17px] font-semibold text-espresso">
+        <span>CROCUS</span>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-6" id="mainNav" aria-label="Навигация">
+        <a href="#catalog" class="text-sm font-medium text-inkSoft hover:text-terracotta transition-colors duration-150 ease-brand">Каталог</a>
+        <a href="#calculator" class="text-sm font-medium text-inkSoft hover:text-terracotta transition-colors duration-150 ease-brand">Калькулятор</a>
+        <a href="#gallery" class="text-sm font-medium text-inkSoft hover:text-terracotta transition-colors duration-150 ease-brand">Работы</a>
+        <a href="#about" class="text-sm font-medium text-inkSoft hover:text-terracotta transition-colors duration-150 ease-brand">О нас</a>
+        <a href="#news" class="text-sm font-medium text-inkSoft hover:text-terracotta transition-colors duration-150 ease-brand">Проекты</a>
+        <a href="#faq" class="text-sm font-medium text-inkSoft hover:text-terracotta transition-colors duration-150 ease-brand">Вопросы</a>
+        <a href="#contact" class="text-sm font-medium text-inkSoft hover:text-terracotta transition-colors duration-150 ease-brand">Контакты</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="tel:+79277252078" class="hidden sm:inline text-sm font-medium tabular-nums whitespace-nowrap text-inkSoft hover:text-terracotta transition-colors duration-150 ease-brand">+7 (927) 725-20-78</a>
+        <button type="button" class="open-booking-btn inline-flex items-center justify-center h-9 px-4 rounded-lg text-[13px] font-medium bg-terracotta text-white hover:bg-terracottaDark active:scale-[0.98] transition-[background-color,transform] duration-150 ease-brand cursor-pointer" data-item="Консультация и 3D-проект">Записаться</button>
+        <button type="button" class="lg:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 bg-white border border-line rounded-lg cursor-pointer" id="burgerBtn" aria-label="Меню" aria-expanded="false">
+          <span class="w-4 h-[1.5px] bg-ink"></span>
+          <span class="w-4 h-[1.5px] bg-ink"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="hidden lg:hidden flex-col gap-3 px-[4vw] py-4 bg-cream border-t border-line" id="mobileNav">
+      <a href="#catalog" class="text-sm font-medium text-inkSoft">Каталог</a>
+      <a href="#calculator" class="text-sm font-medium text-inkSoft">Калькулятор</a>
+      <a href="#gallery" class="text-sm font-medium text-inkSoft">Работы</a>
+      <a href="#about" class="text-sm font-medium text-inkSoft">О нас</a>
+      <a href="#news" class="text-sm font-medium text-inkSoft">Проекты</a>
+      <a href="#faq" class="text-sm font-medium text-inkSoft">Вопросы</a>
+      <a href="#contact" class="text-sm font-medium text-inkSoft">Контакты</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section: Architectural Split with Sculpted Photo Silhouette -->
+    <section class="relative overflow-hidden py-16 sm:py-20 lg:py-28 bg-white" id="home">
+      <div class="w-[min(1280px,92vw)] mx-auto grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-10 lg:gap-14 items-center">
+        <div class="py-2">
+
+          <h1 class="font-display text-[34px] sm:text-[46px] lg:text-[56px] font-semibold leading-[1.06] tracking-[-0.025em] text-espresso mb-6">
+            Мебель и кухни по вашим размерам
+          </h1>
+
+          <p class="text-base sm:text-[18px] leading-[1.6] text-inkSoft max-w-[460px] mb-9">
+            Собственное производство с точностью до 1 мм. Бесплатный 3D-проект за 15 минут, скидка 30% и монтаж в подарок от 50 000 ₽.
+          </p>
+
+          <div class="flex flex-wrap gap-3">
+            <a href="#catalog" class="inline-flex items-center justify-center h-12 px-7 rounded-xl text-sm font-medium bg-terracotta text-white hover:bg-terracottaDark active:scale-[0.98] transition-[background-color,transform] duration-150 ease-brand">Выбрать мебель</a>
+            <a href="#calculator" class="inline-flex items-center justify-center h-12 px-7 rounded-xl text-sm font-medium bg-white text-espresso border border-line hover:border-espresso/40 active:scale-[0.98] transition-[border-color,transform] duration-150 ease-brand">Рассчитать стоимость</a>
+          </div>
+        </div>
+
+        <div class="w-full">
+          <img
+            src="img/hero.jpg"
+            alt="Кухня на заказ от фабрики CROCUS в Самаре"
+            fetchpriority="high"
+            decoding="async"
+            class="w-full aspect-[4/3] object-cover object-[center_58%] rounded-2xl shadow-cardHover"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Catalog (12 separate cells) -->
+    <section class="py-16 lg:py-20" id="catalog">
+      <div class="w-[min(1280px,92vw)] mx-auto">
+        <div class="mb-10">
+          <h2 class="font-display text-[26px] sm:text-[34px] font-semibold leading-[1.15] tracking-[-0.02em] text-espresso">Товары и услуги</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="catalogGrid"></div>
+      </div>
+    </section>
+
+    <!-- Calculator -->
+    <section class="py-16 lg:py-20 bg-white" id="calculator">
+      <div class="w-[min(1280px,92vw)] mx-auto">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-10">
+          <h2 class="font-display text-[26px] sm:text-[34px] font-semibold leading-[1.15] tracking-[-0.02em] text-espresso">Расчёт стоимости</h2>
+          <button type="button" id="resetCalcBtn" class="px-4 py-2 rounded-xl border border-line bg-white text-xs font-medium text-inkSoft hover:border-terracotta hover:text-terracotta transition-colors duration-150 cursor-pointer">Сбросить параметры</button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-[1.45fr_1fr] gap-6 items-start">
+          <form class="bg-white rounded-2xl p-6 sm:p-8 shadow-card border border-line" id="priceCalcForm">
+            <div>
+              <label class="block text-[13px] font-medium text-inkSoft mb-3">01. Тип мебели</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5" id="calcTypeGroup">
+                <button type="button" class="seg-btn active flex flex-col items-start gap-0.5 p-3.5 rounded-xl border text-left cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-espresso text-white border-espresso" data-value="kitchen-straight" data-base="34000" aria-pressed="true">
+                  <span class="text-[13.5px] font-medium">Кухня прямая</span>
+                  <span class="seg-sub text-[11.5px] text-white/70 tabular-nums">от 34 000 ₽ / м.п.</span>
+                </button>
+                <button type="button" class="seg-btn flex flex-col items-start gap-0.5 p-3.5 rounded-xl border text-left cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-white text-espresso border-line hover:border-espresso/40" data-value="kitchen-corner" data-base="39000" aria-pressed="false">
+                  <span class="text-[13.5px] font-medium">Кухня угловая</span>
+                  <span class="seg-sub text-[11.5px] text-inkMuted tabular-nums">от 39 000 ₽ / м.п.</span>
+                </button>
+                <button type="button" class="seg-btn flex flex-col items-start gap-0.5 p-3.5 rounded-xl border text-left cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-white text-espresso border-line hover:border-espresso/40" data-value="kitchen-classic" data-base="44000" aria-pressed="false">
+                  <span class="text-[13.5px] font-medium">Кухня «Классика»</span>
+                  <span class="seg-sub text-[11.5px] text-inkMuted tabular-nums">от 44 000 ₽ / м.п.</span>
+                </button>
+                <button type="button" class="seg-btn flex flex-col items-start gap-0.5 p-3.5 rounded-xl border text-left cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-white text-espresso border-line hover:border-espresso/40" data-value="kitchen-radius" data-base="42000" aria-pressed="false">
+                  <span class="text-[13.5px] font-medium">Радиусные фасады</span>
+                  <span class="seg-sub text-[11.5px] text-inkMuted tabular-nums">от 42 000 ₽ / м.п.</span>
+                </button>
+                <button type="button" class="seg-btn flex flex-col items-start gap-0.5 p-3.5 rounded-xl border text-left cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-white text-espresso border-line hover:border-espresso/40" data-value="wardrobe" data-base="18000" aria-pressed="false">
+                  <span class="text-[13.5px] font-medium">Шкаф-купе</span>
+                  <span class="seg-sub text-[11.5px] text-inkMuted tabular-nums">от 18 000 ₽ / м.п.</span>
+                </button>
+                <button type="button" class="seg-btn flex flex-col items-start gap-0.5 p-3.5 rounded-xl border text-left cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-white text-espresso border-line hover:border-espresso/40" data-value="kids" data-base="24000" aria-pressed="false">
+                  <span class="text-[13.5px] font-medium">Детская / Прихожая</span>
+                  <span class="seg-sub text-[11.5px] text-inkMuted tabular-nums">от 24 000 ₽ / м.п.</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-line">
+              <div class="flex flex-wrap justify-between items-center gap-3 mb-3">
+                <label class="text-[13px] font-medium text-inkSoft" for="calcLength">02. Длина конструкции</label>
+                <div class="flex items-center gap-2">
+                  <button type="button" id="calcLengthMinus" class="w-8 h-8 rounded-lg border border-line bg-white text-espresso font-medium hover:border-terracotta hover:text-terracotta transition-colors cursor-pointer" aria-label="Уменьшить длину">−</button>
+                  <span class="min-w-[68px] text-center text-sm font-semibold text-terracotta tabular-nums"><span id="calcLengthVal">3.2</span> м.п.</span>
+                  <button type="button" id="calcLengthPlus" class="w-8 h-8 rounded-lg border border-line bg-white text-espresso font-medium hover:border-terracotta hover:text-terracotta transition-colors cursor-pointer" aria-label="Увеличить длину">+</button>
+                </div>
+              </div>
+              <input type="range" id="calcLength" min="1.5" max="8.0" step="0.1" value="3.2" class="w-full accent-terracotta cursor-pointer" />
+              <div class="flex flex-wrap justify-between items-center gap-2 mt-2.5">
+                <div class="flex flex-wrap gap-1.5" id="calcLengthPresets">
+                  <button type="button" class="len-preset px-2.5 py-1 rounded-md border border-line text-xs font-medium text-inkSoft hover:border-terracotta hover:text-terracotta transition-colors cursor-pointer tabular-nums" data-len="2.4">2.4 м</button>
+                  <button type="button" class="len-preset px-2.5 py-1 rounded-md border border-line text-xs font-medium text-inkSoft hover:border-terracotta hover:text-terracotta transition-colors cursor-pointer tabular-nums" data-len="3.2">3.2 м</button>
+                  <button type="button" class="len-preset px-2.5 py-1 rounded-md border border-line text-xs font-medium text-inkSoft hover:border-terracotta hover:text-terracotta transition-colors cursor-pointer tabular-nums" data-len="4.5">4.5 м</button>
+                  <button type="button" class="len-preset px-2.5 py-1 rounded-md border border-line text-xs font-medium text-inkSoft hover:border-terracotta hover:text-terracotta transition-colors cursor-pointer tabular-nums" data-len="6.0">6.0 м</button>
+                </div>
+                <span class="text-xs text-inkMuted tabular-nums">1.5 — 8.0 м</span>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-line">
+              <label class="block text-[13px] font-medium text-inkSoft mb-3">03. Материал фасадов</label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <label class="cursor-pointer">
+                  <input type="radio" name="material" value="1.0" data-name="МДФ / Пластик (Lamarty, Slotex)" class="peer sr-only" checked />
+                  <span class="flex flex-col gap-1 h-full p-3.5 rounded-xl border border-line bg-white peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <span class="flex items-center justify-between gap-2">
+                      <span class="w-3 h-3 rounded-full bg-[#e6dfd5] border border-line" aria-hidden="true"></span>
+                      <span class="text-[11px] font-medium text-sage">База</span>
+                    </span>
+                    <strong class="text-[13px] font-medium text-espresso">МДФ / Пластик</strong>
+                    <small class="text-xs text-inkMuted">Lamarty, Slotex</small>
+                  </span>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="material" value="1.22" data-name="Эмаль NCS / Акрил / Supromat" class="peer sr-only" />
+                  <span class="flex flex-col gap-1 h-full p-3.5 rounded-xl border border-line bg-white peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <span class="flex items-center justify-between gap-2">
+                      <span class="w-3 h-3 rounded-full bg-[#c9b8a8] border border-line" aria-hidden="true"></span>
+                      <span class="text-[11px] font-medium text-terracotta tabular-nums">+22%</span>
+                    </span>
+                    <strong class="text-[13px] font-medium text-espresso">Эмаль / Акрил / Supromat</strong>
+                    <small class="text-xs text-inkMuted">Глянец или бархат</small>
+                  </span>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="material" value="1.42" data-name="Массив / Шпон дуба (Италия, Польша, РФ)" class="peer sr-only" />
+                  <span class="flex flex-col gap-1 h-full p-3.5 rounded-xl border border-line bg-white peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <span class="flex items-center justify-between gap-2">
+                      <span class="w-3 h-3 rounded-full bg-[#8f6746] border border-line" aria-hidden="true"></span>
+                      <span class="text-[11px] font-medium text-terracotta tabular-nums">+42%</span>
+                    </span>
+                    <strong class="text-[13px] font-medium text-espresso">Массив / Шпон дуба</strong>
+                    <small class="text-xs text-inkMuted">Италия, Польша, РФ</small>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-line">
+              <label class="block text-[13px] font-medium text-inkSoft mb-3">04. Столешница</label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <label class="cursor-pointer">
+                  <input type="radio" name="countertop" value="0" data-name="Влагостойкий пластик 38 мм" class="peer sr-only" checked />
+                  <span class="flex flex-col justify-between gap-1 h-full p-3.5 rounded-xl border border-line bg-white peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <strong class="text-[13px] font-medium text-espresso">Пластик 38 мм</strong>
+                    <small class="text-xs font-medium text-sage">Включено</small>
+                  </span>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="countertop" value="18000" data-name="Столешница 70/60 см + еврозапил" class="peer sr-only" />
+                  <span class="flex flex-col justify-between gap-1 h-full p-3.5 rounded-xl border border-line bg-white peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <strong class="text-[13px] font-medium text-espresso">70/60 см + еврозапил</strong>
+                    <small class="text-xs font-medium text-terracotta tabular-nums">+18 000 ₽</small>
+                  </span>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="countertop" value="45000" data-name="Искусственный камень Grandex / Neomarm" class="peer sr-only" />
+                  <span class="flex flex-col justify-between gap-1 h-full p-3.5 rounded-xl border border-line bg-white peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <strong class="text-[13px] font-medium text-espresso">Камень Grandex / Neomarm</strong>
+                    <small class="text-xs font-medium text-terracotta tabular-nums">+45 000 ₽</small>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-line">
+              <label class="block text-[13px] font-medium text-inkSoft mb-3">05. Фурнитура</label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <label class="cursor-pointer">
+                  <input type="radio" name="hardware" value="0" data-name="Доводчики стандарт" class="peer sr-only" checked />
+                  <span class="flex flex-col justify-between gap-1 h-full p-3.5 rounded-xl border border-line bg-white peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <strong class="text-[13px] font-medium text-espresso">Доводчики стандарт</strong>
+                    <small class="text-xs font-medium text-sage">Включено</small>
+                  </span>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="hardware" value="14000" data-name="Hettich / Push-to-Open" class="peer sr-only" />
+                  <span class="flex flex-col justify-between gap-1 h-full p-3.5 rounded-xl border border-line bg-white peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <strong class="text-[13px] font-medium text-espresso">Hettich / Push-to-Open</strong>
+                    <small class="text-xs font-medium text-terracotta tabular-nums">+14 000 ₽</small>
+                  </span>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="hardware" value="24000" data-name="Blum (Австрия) + профиль Gola" class="peer sr-only" />
+                  <span class="flex flex-col justify-between gap-1 h-full p-3.5 rounded-xl border border-line bg-white peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <strong class="text-[13px] font-medium text-espresso">Blum + профиль Gola</strong>
+                    <small class="text-xs font-medium text-terracotta tabular-nums">+24 000 ₽</small>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-line">
+              <label class="block text-[13px] font-medium text-inkSoft mb-3">06. Дополнительные опции</label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <label class="cursor-pointer">
+                  <input type="checkbox" class="calc-extra peer sr-only" value="8500" data-name="LED-подсветка" />
+                  <span class="flex items-center justify-between gap-2 p-3.5 rounded-xl border border-line bg-white text-[13px] text-espresso peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <span class="font-medium">LED-подсветка</span>
+                    <span class="text-xs font-medium text-terracotta tabular-nums">+8 500 ₽</span>
+                  </span>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="checkbox" class="calc-extra peer sr-only" value="12000" data-name="Встройка под потолок" />
+                  <span class="flex items-center justify-between gap-2 p-3.5 rounded-xl border border-line bg-white text-[13px] text-espresso peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <span class="font-medium">Под потолок</span>
+                    <span class="text-xs font-medium text-terracotta tabular-nums">+12 000 ₽</span>
+                  </span>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="checkbox" class="calc-extra peer sr-only" value="6500" data-name="Розетки в столешницу" />
+                  <span class="flex items-center justify-between gap-2 p-3.5 rounded-xl border border-line bg-white text-[13px] text-espresso peer-checked:border-terracotta peer-checked:bg-terracotta/5 peer-focus-visible:ring-2 peer-focus-visible:ring-terracotta transition-[border-color,background-color] duration-150 ease-brand">
+                    <span class="font-medium">Розетки в столешн.</span>
+                    <span class="text-xs font-medium text-terracotta tabular-nums">+6 500 ₽</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </form>
+
+          <aside class="lg:sticky lg:top-20 p-7 rounded-2xl bg-espresso text-white shadow-cardHover">
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="text-xs text-white/60">Смета проекта</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-sage/25 text-[#7ee2a8] text-xs font-medium tabular-nums" id="calcSavings">Выгода −30%</span>
+            </div>
+            <div class="text-[13px] text-white/60 tabular-nums">Без скидки: <span id="calcOldPrice" class="line-through">155 400 ₽</span></div>
+            <div class="text-[40px] font-semibold leading-none text-terracottaBright my-2 tabular-nums" id="calcFinalPrice">108 780 ₽</div>
+
+            <div class="mt-4 pt-4 border-t border-white/15 space-y-2 text-[13px] tabular-nums" id="calcBreakdown"></div>
+
+            <div class="mt-4 pt-4 border-t border-white/15">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-xs text-white/70">Рассрочка 0%:</span>
+                <div class="flex gap-1" id="calcTermGroup">
+                  <button type="button" class="term-btn px-2 py-0.5 rounded text-xs font-medium bg-white/10 text-white/75 hover:bg-white/20 transition-colors cursor-pointer" data-months="6">6 м</button>
+                  <button type="button" class="term-btn active px-2 py-0.5 rounded text-xs font-medium bg-terracottaBright text-white transition-colors cursor-pointer" data-months="12">12 м</button>
+                  <button type="button" class="term-btn px-2 py-0.5 rounded text-xs font-medium bg-white/10 text-white/75 hover:bg-white/20 transition-colors cursor-pointer" data-months="24">24 м</button>
+                </div>
+              </div>
+              <div class="text-lg font-semibold text-white tabular-nums" id="calcMonthly">~9 065 ₽/мес</div>
+            </div>
+
+            <ul class="my-4 py-4 pl-4 list-disc border-y border-white/15 text-[13px] text-white/80 space-y-1.5 tabular-nums">
+              <li>Бесплатный 3D-проект и расчёт за 15 минут</li>
+              <li>Бесплатный замер комнаты с точностью до 1 мм</li>
+              <li id="freeInstallText">Доставка и монтаж — <strong class="font-medium text-white">в подарок</strong> (от 50 000 ₽)</li>
+            </ul>
+
+            <div class="flex flex-col gap-2.5">
+              <button type="button" class="w-full h-11 rounded-xl text-sm font-medium bg-terracottaBright text-white hover:bg-terracotta active:scale-[0.98] transition-[background-color,transform] duration-150 ease-brand cursor-pointer" id="bookFromCalcBtn">Забронировать цену</button>
+              <a id="calcWhatsappLink" href="https://api.whatsapp.com/send?phone=79277252078" target="_blank" rel="noopener" class="w-full h-11 rounded-xl text-sm font-medium inline-flex items-center justify-center border border-white/25 text-white hover:border-white/60 transition-colors duration-150 ease-brand">Отправить в WhatsApp</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="py-16 lg:py-20" id="about">
+      <div class="w-[min(1280px,92vw)] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-12 items-start">
+        <div>
+          <h2 class="font-display text-[26px] sm:text-[34px] font-semibold leading-[1.15] tracking-[-0.02em] text-espresso mb-4">Фабрика CROCUS — с 2005 года в Самаре</h2>
+          <p class="text-inkSoft mb-4">
+            Мебельная компания <strong class="font-medium text-espresso">CROCUS</strong> (ООО «Мебельная Страна») изготавливает корпусную и встроенную мебель на заказ из лучших импортных материалов и комплектующих: кухни, детские, спальни, гостиные, гардеробные, кабинеты, прихожие, ниши в ванной и шкафы с интегрированными аквариумами.
+          </p>
+          <p class="text-inkSoft">
+            Работаем напрямую с производства без посредников, строго по договору. Цены на 15–30% ниже рыночных. Принимаем все виды банковских карт и безналичный расчёт (б/н).
+          </p>
+          <div class="mt-6 p-5 rounded-2xl bg-white shadow-card border border-line">
+            <div class="text-[13px] font-medium text-terracotta mb-2.5">Телефоны салона и записи</div>
+            <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium tabular-nums">
+              <a href="tel:+79277252078" class="hover:text-terracotta transition-colors duration-150">+7 (927) 725-20-78</a>
+              <a href="tel:+79608321777" class="hover:text-terracotta transition-colors duration-150">+7 (960) 832-17-77</a>
+              <a href="tel:+79276922771" class="hover:text-terracotta transition-colors duration-150">+7 (927) 692-27-71</a>
+              <a href="tel:+79286922881" class="hover:text-terracotta transition-colors duration-150">+7 (928) 692-28-81</a>
+              <a href="tel:+79288252088" class="hover:text-terracotta transition-colors duration-150">+7 (928) 825-20-88</a>
+              <a href="tel:+79608321888" class="hover:text-terracotta transition-colors duration-150">+7 (960) 832-18-88</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-5 rounded-2xl bg-white shadow-card border border-line">
+            <span class="inline-block text-xs font-medium text-terracotta mb-1.5 tabular-nums">01</span>
+            <h3 class="text-[15px] font-semibold text-espresso mb-1">3D-проект за 15 минут</h3>
+            <p class="text-[13px] text-inkSoft">Подбор материалов и точный расчёт бесплатно в салоне.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white shadow-card border border-line">
+            <span class="inline-block text-xs font-medium text-terracotta mb-1.5 tabular-nums">02</span>
+            <h3 class="text-[15px] font-semibold text-espresso mb-1">Точность до 1 мм</h3>
+            <p class="text-[13px] text-inkSoft">Нестандартные размеры и радиусы без наценки за нестандарт.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white shadow-card border border-line">
+            <span class="inline-block text-xs font-medium text-terracotta mb-1.5 tabular-nums">03</span>
+            <h3 class="text-[15px] font-semibold text-espresso mb-1">Монтаж в подарок</h3>
+            <p class="text-[13px] text-inkSoft">Бесплатная установка при заказе от 50 000 ₽ за 1 день.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white shadow-card border border-line">
+            <span class="inline-block text-xs font-medium text-terracotta mb-1.5 tabular-nums">04</span>
+            <h3 class="text-[15px] font-semibold text-espresso mb-1">Гарантия до 10 лет</h3>
+            <p class="text-[13px] text-inkSoft">24 месяца на заказ и 10 лет на фасады с лазерной кромкой.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white shadow-card border border-line">
+            <span class="inline-block text-xs font-medium text-terracotta mb-1.5 tabular-nums">05</span>
+            <h3 class="text-[15px] font-semibold text-espresso mb-1">Кредит и рассрочка</h3>
+            <p class="text-[13px] text-inkSoft">Рассрочка 0% или кредит до 300 000 ₽ на мебель и технику.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white shadow-card border border-line">
+            <span class="inline-block text-xs font-medium text-terracotta mb-1.5 tabular-nums">06</span>
+            <h3 class="text-[15px] font-semibold text-espresso mb-1">Этапы работы</h3>
+            <p class="text-[13px] text-inkSoft">Запись → 3D-проект → замер → договор → производство от 14 дней → монтаж.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="py-16 lg:py-20 bg-white" id="gallery">
+      <div class="w-[min(1280px,92vw)] mx-auto">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+          <h2 class="font-display text-[26px] sm:text-[34px] font-semibold leading-[1.15] tracking-[-0.02em] text-espresso">Реализованные работы</h2>
+        </div>
+        <div class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4" id="galleryGrid"></div>
+      </div>
+    </section>
+
+    <!-- News & Projects -->
+    <section class="py-16 lg:py-20" id="news">
+      <div class="w-[min(1280px,92vw)] mx-auto">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+          <h2 class="font-display text-[26px] sm:text-[34px] font-semibold leading-[1.15] tracking-[-0.02em] text-espresso">Проекты, статьи и отзывы</h2>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-6" role="tablist">
+          <button type="button" class="tab px-4 py-2 rounded-lg border text-[13px] cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-espresso text-white border-espresso font-medium" data-filter="all">Все (48)</button>
+          <button type="button" class="tab px-4 py-2 rounded-lg border text-[13px] cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-white text-inkSoft border-line font-medium hover:border-espresso/30" data-filter="project">Сданные проекты</button>
+          <button type="button" class="tab px-4 py-2 rounded-lg border text-[13px] cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-white text-inkSoft border-line font-medium hover:border-espresso/30" data-filter="promo">Акции</button>
+          <button type="button" class="tab px-4 py-2 rounded-lg border text-[13px] cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-white text-inkSoft border-line font-medium hover:border-espresso/30" data-filter="advice">Советы и о нас</button>
+          <button type="button" class="tab px-4 py-2 rounded-lg border text-[13px] cursor-pointer transition-[background-color,color,border-color] duration-150 ease-brand bg-white text-inkSoft border-line font-medium hover:border-espresso/30" data-filter="review">Отзывы</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="newsGrid"></div>
+        <div class="mt-8 text-center">
+          <button type="button" class="inline-flex items-center justify-center h-11 px-6 rounded-xl text-sm font-medium bg-white text-ink border border-line hover:border-terracotta hover:text-terracotta transition-colors duration-150 ease-brand cursor-pointer" id="toggleAllNewsBtn">Показать все</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ (Native details/summary accordion, unified 2-column grid) -->
+    <section class="py-16 lg:py-20 bg-white" id="faq" aria-labelledby="faq-heading">
+      <div class="w-[min(1280px,92vw)] mx-auto grid grid-cols-1 lg:grid-cols-[0.85fr_1.35fr] gap-10 lg:gap-12 items-start">
+        <div class="lg:sticky lg:top-24">
+          <h2 id="faq-heading" class="font-display text-[26px] sm:text-[34px] font-semibold leading-[1.15] tracking-[-0.02em] text-espresso mb-4">Частые вопросы</h2>
+          <p class="text-sm text-inkSoft max-w-[360px] mb-6">
+            Ответы о производстве, замерах, сроках изготовления, гарантии и условиях рассрочки.
+          </p>
+          <button type="button" class="open-booking-btn inline-flex items-center justify-center h-11 px-5 rounded-xl text-sm font-medium bg-white text-espresso border border-line hover:border-terracotta hover:text-terracotta transition-colors duration-150 ease-brand cursor-pointer" data-item="Консультация по заказу">Задать вопрос менеджеру</button>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <details class="faq-details rounded-2xl bg-white px-6 shadow-card border border-line" open>
+            <summary class="flex items-center gap-3 py-5 font-medium text-espresso cursor-pointer">
+              Какая компания производит мебель в Самаре?
+            </summary>
+            <div class="pb-5 pl-7 text-sm text-inkSoft">
+              <p>Мебельная компания «CROCUS» (ООО «Мебельная Страна»). Собственное производство с 2005 года.</p>
+            </div>
+          </details>
+          <details class="faq-details rounded-2xl bg-white px-6 shadow-card border border-line">
+            <summary class="flex items-center gap-3 py-5 font-medium text-espresso cursor-pointer">
+              Какие товары или услуги предлагает компания «CROCUS»?
+            </summary>
+            <div class="pb-5 pl-7 text-sm text-inkSoft">
+              <p>Кухни, детские, шкафы, а также спальни, гостиные, гардеробные, кабинеты, прихожие, ниши в ванной и шкафы с интегрированными аквариумами.</p>
+            </div>
+          </details>
+          <details class="faq-details rounded-2xl bg-white px-6 shadow-card border border-line">
+            <summary class="flex items-center gap-3 py-5 font-medium text-espresso cursor-pointer">
+              Какие преимущества имеет заказ мебели у компании «CROCUS»?
+            </summary>
+            <div class="pb-5 pl-7 text-sm text-inkSoft">
+              <p>Бесплатная установка (при заказе от 50 000 рублей), бесплатный дизайн-проект, бесплатное измерение комнаты, быстрый заказ со скидкой 30%, кредит до 300 000 ₽ и б/н расчёт, 100% качество и гарантия.</p>
+            </div>
+          </details>
+          <details class="faq-details rounded-2xl bg-white px-6 shadow-card border border-line">
+            <summary class="flex items-center gap-3 py-5 font-medium text-espresso cursor-pointer">
+              Как можно записаться в салон компании «CROCUS»?
+            </summary>
+            <div class="pb-5 pl-7 text-sm text-inkSoft">
+              <p>По телефонам <a href="tel:+79277252078" class="text-terracotta font-medium">+7 (927) 725-20-78</a>, <a href="tel:+79608321777" class="text-terracotta font-medium">+7 (960) 832-17-77</a>, <a href="tel:+79276922771" class="text-terracotta font-medium">+7 (927) 692-27-71</a> или через форму бронирования. Салон работает с 10:00 до 20:00 без перерывов и выходных по предварительной записи.</p>
+            </div>
+          </details>
+          <details class="faq-details rounded-2xl bg-white px-6 shadow-card border border-line">
+            <summary class="flex items-center gap-3 py-5 font-medium text-espresso cursor-pointer">
+              Где находится салон компании «CROCUS»?
+            </summary>
+            <div class="pb-5 pl-7 text-sm text-inkSoft">
+              <p>Россия, г. Самара, ул. 22 Партсъезда, дом 1/2, ТЦ «Победа», 1 этаж, правое крыло, секция 123.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews (unified 2-column grid) -->
+    <section class="py-16 lg:py-20" id="reviews">
+      <div class="w-[min(1280px,92vw)] mx-auto grid grid-cols-1 lg:grid-cols-[0.85fr_1.35fr] gap-10 lg:gap-12 items-start">
+        <div>
+          <h2 class="font-display text-[26px] sm:text-[34px] font-semibold leading-[1.15] tracking-[-0.02em] text-espresso mb-4">Оставить отзыв о «CROCUS»</h2>
+          <p class="text-sm text-inkSoft max-w-[360px]">
+            Если вы уже заказывали у нас кухню, шкаф или детскую, поделитесь впечатлением — ваш отзыв сразу появится на странице.
+          </p>
+        </div>
+
+        <div>
+          <form class="flex flex-col gap-4 p-6 sm:p-8 rounded-2xl bg-white shadow-card border border-line" id="reviewForm">
+          <div class="flex items-center gap-3 text-sm">
+            <span class="text-inkSoft">Оценка:</span>
+            <div class="flex gap-1" id="starRating">
+              <button type="button" class="star text-xl text-terracotta cursor-pointer" data-rate="1" aria-label="Оценка 1">★</button>
+              <button type="button" class="star text-xl text-terracotta cursor-pointer" data-rate="2" aria-label="Оценка 2">★</button>
+              <button type="button" class="star text-xl text-terracotta cursor-pointer" data-rate="3" aria-label="Оценка 3">★</button>
+              <button type="button" class="star text-xl text-terracotta cursor-pointer" data-rate="4" aria-label="Оценка 4">★</button>
+              <button type="button" class="star text-xl text-terracotta cursor-pointer" data-rate="5" aria-label="Оценка 5">★</button>
+            </div>
+          </div>
+
+          <div>
+            <label for="reviewName" class="block text-xs font-medium text-inkSoft mb-1.5">Ваше имя</label>
+            <input type="text" id="reviewName" name="name" autocomplete="name" class="w-full px-4 py-3 rounded-xl border border-line bg-cream text-ink text-sm outline-none focus:border-terracotta focus:bg-white" placeholder="Например, Анна" data-error="reviewNameError" required />
+            <div id="reviewNameError" class="field-error text-xs text-terracotta mt-1">Ошибка: укажите ваше имя</div>
+          </div>
+
+          <div>
+            <label for="reviewText" class="block text-xs font-medium text-inkSoft mb-1.5">Текст отзыва</label>
+            <textarea id="reviewText" name="review" class="w-full px-4 py-3 rounded-xl border border-line bg-cream text-ink text-sm outline-none focus:border-terracotta focus:bg-white" rows="3" placeholder="Поделитесь впечатлением о заказе" data-error="reviewTextError" required></textarea>
+            <div id="reviewTextError" class="field-error text-xs text-terracotta mt-1">Ошибка: напишите текст отзыва</div>
+          </div>
+
+          <label class="inline-flex items-center gap-2.5 text-[13px] text-inkSoft cursor-pointer">
+            <input type="checkbox" id="reviewConsent" class="accent-terracotta w-4 h-4" checked required />
+            <span>Даю согласие на обработку данных согласно политике конфиденциальности</span>
+          </label>
+
+          <div>
+            <button type="submit" class="h-11 px-6 rounded-xl text-sm font-medium bg-espresso text-white hover:bg-espressoSoft active:scale-[0.98] transition-[background-color,transform] duration-150 ease-brand cursor-pointer">Отправить отзыв</button>
+          </div>
+          <p class="text-[13px] font-medium text-sage min-h-[20px]" id="reviewFeedback"></p>
+        </form>
+        <div class="mt-4 flex flex-col gap-3" id="submittedReviews"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacts & Map -->
+    <section class="py-16 lg:py-20 bg-white" id="contact">
+      <div class="w-[min(1280px,92vw)] mx-auto">
+        <div class="mb-10">
+          <h2 class="font-display text-[26px] sm:text-[34px] font-semibold leading-[1.15] tracking-[-0.02em] text-espresso">Салон в Самаре</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-6 items-stretch">
+          <div class="p-7 rounded-2xl bg-white shadow-card border border-line">
+            <h3 class="text-xl font-semibold text-espresso mb-4">CROCUS • ООО «Мебельная Страна»</h3>
+            <p class="text-sm text-inkSoft mb-3"><strong class="font-medium text-ink">Адрес:</strong> Россия, г. Самара, ул. 22 Партсъезда, д. 1/2, ТЦ «Победа», 1 этаж, правое крыло, секция 123</p>
+            <p class="text-sm text-inkSoft mb-3"><strong class="font-medium text-ink">Режим работы:</strong> 10:00 – 20:00 без перерывов и выходных (по предварительной записи)</p>
+            <p class="text-sm text-inkSoft mb-4 tabular-nums">
+              <strong class="font-medium text-ink">Телефоны:</strong>
+              <a href="tel:+79277252078" class="hover:text-terracotta">+7 (927) 725-20-78</a>,
+              <a href="tel:+79608321777" class="hover:text-terracotta">+7 (960) 832-17-77</a>,
+              <a href="tel:+79276922771" class="hover:text-terracotta">+7 (927) 692-27-71</a>,
+              <a href="tel:+79286922881" class="hover:text-terracotta">+7 (928) 692-28-81</a>,
+              <a href="tel:+79288252088" class="hover:text-terracotta">+7 (928) 825-20-88</a>,
+              <a href="tel:+79608321888" class="hover:text-terracotta">+7 (960) 832-18-88</a>
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <a href="https://vk.com/crocus_mebel" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-cream border border-line text-xs font-medium hover:bg-espresso hover:text-white transition-colors duration-150">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect width="24" height="24" rx="6" fill="#0077FF"/>
+                  <path d="M12.78 16.5c-4.74 0-7.44-3.25-7.55-8.65h2.37c.08 3.96 1.83 5.64 3.21 5.99V7.85h2.23v3.42c1.37-.15 2.8-1.71 3.28-3.42h2.23c-.37 2.11-1.93 3.67-3.04 4.31 1.11.52 2.89 1.88 3.57 4.34h-2.46c-.53-1.64-1.85-2.91-3.59-3.09v3.09h-.25z" fill="#fff"/>
+                </svg>
+                <span>VK</span>
+              </a>
+              <a href="https://instagram.com/crocus__mebel?igshid=1kbwcwugg78bg" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-cream border border-line text-xs font-medium hover:bg-espresso hover:text-white transition-colors duration-150">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#FD5949"/>
+                      <stop offset="50%" stop-color="#D6249F"/>
+                      <stop offset="100%" stop-color="#285AEB"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="24" height="24" rx="6" fill="url(#igGrad)"/>
+                  <rect x="5.5" y="5.5" width="13" height="13" rx="3.8" fill="none" stroke="#fff" stroke-width="1.6"/>
+                  <circle cx="12" cy="12" r="3.1" fill="none" stroke="#fff" stroke-width="1.6"/>
+                  <circle cx="15.8" cy="8.2" r="0.9" fill="#fff"/>
+                </svg>
+                <span>Instagram</span>
+              </a>
+              <a href="https://api.whatsapp.com/send?phone=79277252078&text=Здравствуйте!" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-cream border border-line text-xs font-medium hover:bg-espresso hover:text-white transition-colors duration-150">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="11" fill="#25D366"/>
+                  <path d="M16.9 14.3c-.26-.13-1.56-.77-1.8-.86-.24-.09-.42-.13-.59.13-.18.26-.68.86-.83 1.03-.15.18-.31.2-.57.07-.26-.13-1.11-.41-2.12-1.31-.78-.7-1.31-1.56-1.46-1.82-.15-.26-.02-.4.11-.53.12-.12.26-.31.4-.46.13-.15.18-.26.26-.44.09-.18.04-.33-.02-.46-.07-.13-.59-1.43-.81-1.95-.21-.51-.43-.44-.59-.45h-.5c-.18 0-.46.07-.7.33-.24.26-.92.9-.92 2.2s.94 2.55 1.07 2.73c.13.18 1.85 2.83 4.49 3.97.63.27 1.12.43 1.5.55.63.2 1.2.17 1.65.1.5-.07 1.56-.64 1.78-1.25.22-.61.22-1.14.15-1.25-.07-.11-.24-.18-.5-.31z" fill="#fff"/>
+                </svg>
+                <span>WhatsApp</span>
+              </a>
+              <a href="viber://chat?number=79277252078" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-cream border border-line text-xs font-medium hover:bg-espresso hover:text-white transition-colors duration-150">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect width="24" height="24" rx="6" fill="#7360F2"/>
+                  <path d="M16.6 14.5c-.38-.29-.78-.57-1.18-.83-.44-.29-.9-.27-1.24.09-.24.25-.45.54-.68.8-.18.21-.39.26-.66.15-1.44-.61-2.54-1.58-3.27-2.96-.14-.27-.09-.5.12-.71.2-.19.4-.39.59-.59.35-.37.39-.83.11-1.26-.25-.38-.52-.75-.79-1.12-.36-.49-.81-.56-1.3-.24-.81.53-1.26 1.28-1.21 2.26.07 1.38.68 2.55 1.51 3.6 1.24 1.56 2.78 2.71 4.66 3.41.61.23 1.23.36 1.87.21.84-.2 1.44-.7 1.78-1.5.19-.45.06-.83-.31-1.11z" fill="#fff"/>
+                  <path d="M13.2 7.2c1.72.22 2.98 1.48 3.2 3.2" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/>
+                  <path d="M13.3 9.2c.78.15 1.35.72 1.5 1.5" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/>
+                </svg>
+                <span>Viber</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="min-h-[340px] rounded-2xl overflow-hidden shadow-card border border-line">
+            <iframe
+              title="Салон CROCUS в Самаре — ТЦ Победа"
+              src="https://yandex.ru/map-widget/v1/?text=%D0%A1%D0%B0%D0%BC%D0%B0%D1%80%D0%B0%2C%2022%20%D0%9F%D0%B0%D1%80%D1%82%D1%81%D1%8A%D0%B5%D0%B7%D0%B4%D0%B0%201%2F2&z=16"
+              class="w-full h-full border-0"
+              loading="lazy">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-8 border-t border-line">
+    <div class="w-[min(1280px,92vw)] mx-auto flex flex-wrap justify-between items-center gap-5">
+      <div>
+        <div class="text-[16px] font-semibold tracking-[0.12em] text-espresso">CROCUS</div>
+        <p class="mt-1 text-xs text-inkMuted">ООО «Мебельная Страна» • Мебель на заказ в Самаре с 2005 года. Информация не является публичной офертой.</p>
+      </div>
+      <div class="flex gap-5 text-[13px] text-inkSoft">
+        <a href="#catalog" class="hover:text-terracotta transition-colors">Каталог</a>
+        <a href="#calculator" class="hover:text-terracotta transition-colors">Калькулятор</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Product Detail Modal (Native <dialog>) -->
+  <dialog id="productModal" closedby="any" aria-labelledby="pdTitle" class="m-auto w-[min(920px,94vw)] max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-2xl bg-white shadow-2xl border border-line flex-col">
+    <form method="dialog" class="absolute top-4 right-4">
+      <button type="submit" class="w-9 h-9 rounded-lg border border-line bg-cream text-ink flex items-center justify-center hover:bg-sand transition-colors cursor-pointer" id="productClose" aria-label="Закрыть">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </form>
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-7 items-start">
+      <div class="rounded-xl overflow-hidden bg-sand">
+        <img id="pdImage" src="" alt="" class="w-full h-[320px] sm:h-[360px] object-cover" />
+      </div>
+      <div>
+        <span class="block text-[13px] font-medium text-terracotta mb-1.5" id="pdCategory"></span>
+        <h2 class="text-[24px] font-semibold leading-tight text-espresso mb-2.5" id="pdTitle"></h2>
+        <div class="flex items-baseline gap-2.5 mb-3.5 tabular-nums">
+          <span class="text-[22px] font-semibold text-terracotta" id="pdPrice"></span>
+          <span class="text-[13.5px] text-inkMuted line-through" id="pdOldPrice"></span>
+          <span class="text-xs font-medium text-inkSoft" id="pdBadge"></span>
+        </div>
+        <p class="text-sm text-inkSoft mb-4" id="pdDesc"></p>
+        <ul class="mb-6 text-[13px] text-inkSoft divide-y divide-line border-t border-line" id="pdSpecs"></ul>
+        <div class="flex flex-wrap gap-2.5">
+          <button type="button" class="h-11 px-6 rounded-xl text-sm font-medium bg-terracotta text-white hover:bg-terracottaDark transition-colors cursor-pointer" id="pdBookBtn">Забронировать</button>
+          <button type="button" class="h-11 px-6 rounded-xl text-sm font-medium bg-cream text-ink border border-line hover:border-terracotta hover:text-terracotta transition-colors cursor-pointer" id="pdCalcBtn">Рассчитать в калькуляторе →</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Booking Modal (Native <dialog>) -->
+  <dialog id="bookingModal" closedby="any" aria-labelledby="bookingItemTitle" class="m-auto w-[min(460px,94vw)] max-h-[90vh] overflow-y-auto p-6 sm:p-7 rounded-2xl bg-white shadow-2xl border border-line flex-col">
+    <form method="dialog" class="absolute top-4 right-4">
+      <button type="submit" class="w-9 h-9 rounded-lg border border-line bg-cream text-ink flex items-center justify-center hover:bg-sand transition-colors cursor-pointer" id="bookingClose" aria-label="Закрыть">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </form>
+    <h2 class="text-[22px] font-semibold text-espresso mb-1.5 pr-8" id="bookingItemTitle">Забронировать мебель</h2>
+    <p class="text-[13.5px] text-inkSoft mb-5">Закрепите скидку 30%, бесплатный замер и 3D-проект за 15 минут.</p>
+    <form id="bookingForm" class="flex flex-col gap-3">
+      <input type="hidden" id="bookingItemHidden" />
+      <div>
+        <label for="bookingName" class="block text-xs font-medium text-inkSoft mb-1">Ваше имя</label>
+        <input type="text" id="bookingName" name="name" autocomplete="name" autofocus class="w-full px-4 py-3 rounded-xl border border-line bg-cream text-ink text-sm outline-none focus:border-terracotta focus:bg-white" placeholder="Например, Елена" data-error="bookingNameError" required />
+        <div id="bookingNameError" class="field-error text-xs text-terracotta mt-1">Ошибка: укажите ваше имя</div>
+      </div>
+      <div>
+        <label for="bookingPhone" class="block text-xs font-medium text-inkSoft mb-1">Телефон</label>
+        <input type="tel" id="bookingPhone" name="tel" autocomplete="tel" class="w-full px-4 py-3 rounded-xl border border-line bg-cream text-ink text-sm outline-none focus:border-terracotta focus:bg-white" placeholder="+7 (___) ___-__-__" data-error="bookingPhoneError" required />
+        <div id="bookingPhoneError" class="field-error text-xs text-terracotta mt-1">Ошибка: укажите номер телефона</div>
+      </div>
+      <div>
+        <label for="bookingComment" class="block text-xs font-medium text-inkSoft mb-1">Удобное время визита или замера</label>
+        <input type="text" id="bookingComment" class="w-full px-4 py-3 rounded-xl border border-line bg-cream text-ink text-sm outline-none focus:border-terracotta focus:bg-white" placeholder="Ежедневно 10:00–20:00" />
+      </div>
+      <button type="submit" class="w-full h-11 rounded-xl text-sm font-medium bg-terracotta text-white hover:bg-terracottaDark transition-colors cursor-pointer mt-1">Подтвердить бронь</button>
+      <a id="bookingWaLink" href="https://api.whatsapp.com/send?phone=79277252078" target="_blank" rel="noopener" class="w-full h-11 rounded-xl text-sm font-medium inline-flex items-center justify-center bg-cream text-ink border border-line hover:border-terracotta hover:text-terracotta transition-colors">Отправить в WhatsApp</a>
+      <p class="text-[13px] font-medium text-sage min-h-[20px]" id="bookingFeedback"></p>
+    </form>
+  </dialog>
+
+  <!-- Lightbox (Native <dialog>) -->
+  <dialog id="lightbox" closedby="any" aria-label="Просмотр фотографии работы" class="m-auto bg-transparent border-0 p-0 max-w-[94vw] max-h-[90vh] items-center justify-center overflow-visible">
+    <form method="dialog" class="fixed top-5 right-5 z-10">
+      <button type="submit" class="w-11 h-11 rounded-xl border border-white/25 bg-espresso/85 text-white flex items-center justify-center hover:bg-espresso cursor-pointer" id="lightboxClose" aria-label="Закрыть">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </form>
+    <button type="button" class="fixed left-4 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-xl border border-white/25 bg-espresso/85 text-white flex items-center justify-center hover:bg-espresso cursor-pointer" id="lightboxPrev" aria-label="Назад">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <img src="" alt="Мебель на заказ в Самаре - CROCUS" id="lightboxImg" class="max-w-[88vw] max-h-[85vh] rounded-2xl shadow-2xl" />
+    <button type="button" class="fixed right-4 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-xl border border-white/25 bg-espresso/85 text-white flex items-center justify-center hover:bg-espresso cursor-pointer" id="lightboxNext" aria-label="Вперёд">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+  </dialog>
+
+  <!-- Cookie Banner -->
+  <div class="fixed left-5 right-5 sm:right-auto bottom-5 z-30 max-w-[380px] p-4 rounded-2xl bg-white shadow-cardHover border border-line flex flex-col sm:flex-row items-stretch sm:items-center gap-3" id="cookieBanner">
+    <p class="text-xs text-inkSoft">Используя сайт, вы соглашаетесь на обработку cookies и данных согласно политике конфиденциальности.</p>
+    <button type="button" class="px-4 py-2 rounded-lg text-xs font-medium bg-espresso text-white hover:bg-espressoSoft transition-colors cursor-pointer shrink-0" id="acceptCookies">Принять</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
